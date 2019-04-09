@@ -1,0 +1,8 @@
+const Swagger = require('swagger-client');
+const client = await Swagger('{{=data.baseUrl}}/swagger.json');
+const result = await client.api.{{=data.operation.tags[0]}}.{{=data.operation.operationId}}({
+{{~data.parameters :p:index}}  {{=p.name}}: {{=p.exampleValues.json}}
+{{~}}{{?data.allHeaders.length}}  headers: {
+{{~data.allHeaders :p:index}}{{?p.name != 'Accept' && p.name != 'Content-Type'}}    '{{=p.name}}': {{=p.exampleValues.json}}{{?index < data.allHeaders.length-1}},{{?}}
+{{?}}{{~}} }{{?}}
+});
